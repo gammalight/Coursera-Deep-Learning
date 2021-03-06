@@ -134,6 +134,17 @@ import tensorflow as tf
 print(tf.__version__)
 import matplotlib.pyplot as plt
 
+
+class myCallback(tf.keras.callbacks.Callback):
+  def on_epoch_end(self, epoch, logs={}):
+    if(logs.get('accuracy')>0.98):
+      print("\nReached 99% accuracy so cancelling training!")
+      self.model.stop_training = True
+
+callbacks = myCallback()
+
+
+
 path = 'C:\\Users\\kevin\\.keras\\datasets\\mnist.npz'
 
 fashion_mnist = keras.datasets.fashion_mnist
@@ -188,7 +199,7 @@ f, axarr = plt.subplots(3, 4)
 FIRST_IMAGE = 2
 SECOND_IMAGE = 3
 THIRD_IMAGE = 5
-CONVOLUTION_NUMBER = 4
+CONVOLUTION_NUMBER = 5
 from tensorflow.keras import models
 layer_outputs = [layer.output for layer in model.layers]
 activation_model = tf.keras.models.Model(inputs = model.input, outputs = layer_outputs)
